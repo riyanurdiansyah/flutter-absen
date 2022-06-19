@@ -1,6 +1,9 @@
 import 'package:absensi_flutter/controllers/absen_c.dart';
+import 'package:absensi_flutter/controllers/admin_c.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/routes/routes_name.dart';
+import 'package:absensi_flutter/utils/app_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,6 +115,58 @@ class AppDialog {
       onConfirm: () {
         Get.offAllNamed(AppRouteName.home);
       },
+    );
+  }
+
+  static dialogDatePicker() {
+    final admC = Get.find<AdminC>();
+    return showCupertinoModalPopup(
+      context: admC.scaffoldkey.currentState!.context,
+      builder: (context) => Container(
+        height: 300,
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: AppText.labelW500(
+                      "Batal",
+                      14,
+                      Colors.grey.shade400,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: AppText.labelW600(
+                      "Pilih",
+                      14,
+                      Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 220,
+              child: CupertinoDatePicker(
+                dateOrder: DatePickerDateOrder.dmy,
+                mode: CupertinoDatePickerMode.date,
+                initialDateTime: DateTime.parse(admC.tanggal.value),
+                maximumYear: DateTime.now().year,
+                minimumYear: DateTime.now().year - 1,
+                minimumDate: DateTime(DateTime.now().year - 5, 1, 1),
+                onDateTimeChanged: (date) => admC.onTapDate(date),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -22,4 +22,6 @@ abstract class HomeRepo {
   Future saveCheckin(UserM user);
 
   Future saveCheckout(UserM user);
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi();
 }

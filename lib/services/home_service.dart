@@ -181,4 +181,9 @@ class HomeService extends HomeRepo {
       AppDialog.dialogWithRoute("Ooppss...", e.toString());
     }
   }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi() {
+    return FirebaseFirestore.instance.collection("absen").snapshots();
+  }
 }

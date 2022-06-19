@@ -1,4 +1,6 @@
+import 'package:absensi_flutter/controllers/admin_c.dart';
 import 'package:absensi_flutter/controllers/home_c.dart';
+import 'package:absensi_flutter/pages/admin/rekap_absen_page.dart';
 import 'package:absensi_flutter/pages/home/home_page.dart';
 import 'package:absensi_flutter/pages/home/master_lokasi.dart';
 import 'package:absensi_flutter/routes/routes_name.dart';
@@ -14,7 +16,9 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeC = Get.find<HomeC>();
+    final admC = Get.find<AdminC>();
     return Scaffold(
+      key: admC.scaffoldkey,
       appBar: AppBar(
         elevation: 0,
         centerTitle: false,
@@ -27,7 +31,7 @@ class DashboardPage extends StatelessWidget {
         ),
         title: Obx(
           () => AppText.labelBold(
-            homeC.indexTab.value == 0 ? "Home" : "Master Location",
+            homeC.title.value,
             16,
             Colors.white,
           ),
@@ -51,6 +55,7 @@ class DashboardPage extends StatelessWidget {
           children: const [
             HomePage(),
             MasterLokasi(),
+            RekapAbsenPage(),
           ],
         ),
       ),

@@ -42,6 +42,9 @@ class HomeC extends GetxController {
   final Rx<String> _uid = ''.obs;
   Rx<String> get uid => _uid;
 
+  final Rx<String> _title = 'Home'.obs;
+  Rx<String> get title => _title;
+
   final RxList<AbsenM> _listAbsen = <AbsenM>[].obs;
   RxList<AbsenM> get listAbsen => _listAbsen;
 
@@ -60,8 +63,9 @@ class HomeC extends GetxController {
     _uid.value = prefs.getString('uid') ?? '';
   }
 
-  void changeTab(int i) {
+  void changeTab(int i, String txt) {
     _indexTab.value = i;
+    _title.value = txt;
     Get.back();
   }
 
