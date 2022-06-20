@@ -3,6 +3,7 @@ import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/repositories/home_repo.dart';
 import 'package:absensi_flutter/utils/app_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 
@@ -185,5 +186,56 @@ class HomeService extends HomeRepo {
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi() {
     return FirebaseFirestore.instance.collection("absen").snapshots();
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamLokasiKaryawan() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where('role', isNotEqualTo: 1)
+        .snapshots();
+  }
+
+  @override
+  Future<bool> addKaryawan(UserM user) async {
+    try {
+      final response =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
+      final body = {
+        "uid": response.user!.uid,
+        "email": user.email,
+        "createdAt": DateTime.now().toIso8601String(),
+        "updatedAt": DateTime.now().toIso8601String(),
+        "lat": user.lat,
+        "lng": user.lng,
+        "name": user.name,
+        "profilePict": '',
+        "role": user.role,
+        "status": true,
+        "username": user.username,
+        "handphone": user.handphone,
+      };
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(response.user!.uid)
+          .set(body);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        AppDialog.dialogWithRoute('Ooppss...', 'Password terlalu lemah');
+        return false;
+      } else if (e.code == 'email-already-in-use') {
+        AppDialog.dialogWithRoute('Ooppss...', 'Email sudah terdaftar');
+        return false;
+      } else {
+        AppDialog.dialogWithRoute('Ooppss...', '${e.message}');
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 }

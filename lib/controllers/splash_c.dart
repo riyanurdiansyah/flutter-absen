@@ -13,7 +13,7 @@ class SplashC extends GetxController {
       () async {
         final prefs = await SharedPreferences.getInstance();
         final uid = prefs.getString('uid');
-        if (uid!.isNotEmpty) {
+        if (uid != null) {
           return Get.offAllNamed(AppRouteName.home);
         } else {
           return Get.offAllNamed(AppRouteName.auth);

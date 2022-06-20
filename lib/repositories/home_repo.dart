@@ -24,4 +24,8 @@ abstract class HomeRepo {
   Future saveCheckout(UserM user);
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi();
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamLokasiKaryawan();
+
+  Future<bool> addKaryawan(UserM user);
 }

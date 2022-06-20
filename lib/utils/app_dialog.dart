@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class AppDialog {
   static dialogWithRoute(
@@ -164,6 +165,77 @@ class AppDialog {
                 onDateTimeChanged: (date) => admC.onTapDate(date),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static bottomSheetUser(UserM user) {
+    return Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        height: Get.height / 5,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey.shade200,
+                image: const DecorationImage(
+                  image: AssetImage(
+                    'assets/images/profile.png',
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText.labelBold(
+                  user.name!.toUpperCase(),
+                  14,
+                  Colors.black,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                AppText.labelBold(
+                  user.handphone!,
+                  14,
+                  Colors.black,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    AppText.labelW500(
+                      'terakhir update : ',
+                      14,
+                      Colors.black,
+                    ),
+                    AppText.labelBold(
+                      '${DateFormat.jms('id').format(DateTime.parse(user.updatedAt!))} WIB',
+                      14,
+                      Colors.black,
+                    ),
+                  ],
+                )
+              ],
+            )
           ],
         ),
       ),

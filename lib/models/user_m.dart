@@ -13,6 +13,7 @@ class UserM {
     this.status,
     this.lat,
     this.lng,
+    this.password,
   });
 
   String? createdAt;
@@ -28,19 +29,20 @@ class UserM {
   bool? status;
   double? lat;
   double? lng;
+  String? password;
 
   factory UserM.fromJson(Map<String, dynamic> json) => UserM(
-        createdAt: json["createdAt"],
-        updatedAt: json["updatedAt"],
+        createdAt: json["createdAt"] ?? DateTime.now().toIso8601String(),
+        updatedAt: json["updatedAt"] ?? DateTime.now().toIso8601String(),
         uid: json["uid"],
         email: json["email"],
-        handphone: json["handphone"],
-        name: json["name"],
+        handphone: json["handphone"] ?? '',
+        name: json["name"] ?? '',
         username: json["username"],
-        profilePict: json["profilePict"],
-        role: json["role"],
-        status: json["status"],
-        lat: json["lat"],
-        lng: json["lng"],
+        profilePict: json["profilePict"] ?? '',
+        role: json["role"] ?? 2,
+        status: json["status"] ?? true,
+        lat: json["lat"] ?? 0.1,
+        lng: json["lng"] ?? 0.1,
       );
 }

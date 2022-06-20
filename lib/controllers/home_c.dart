@@ -1,7 +1,11 @@
+import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/absen_m.dart';
+import 'package:absensi_flutter/models/azitem_m.dart';
 import 'package:absensi_flutter/models/user_m.dart';
+import 'package:absensi_flutter/routes/routes_name.dart';
 import 'package:absensi_flutter/services/home_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
@@ -18,13 +22,13 @@ class HomeC extends GetxController {
 
   MapController mapController = MapController();
 
-  final Rx<double> _minZoom = 16.0.obs;
+  final Rx<double> _minZoom = 10.0.obs;
   Rx<double> get minZoom => _minZoom;
 
   final Rx<double> _maxZoom = 20.0.obs;
   Rx<double> get maxZoom => _maxZoom;
 
-  final Rx<double> _zoom = 17.0.obs;
+  final Rx<double> _zoom = 18.0.obs;
   Rx<double> get zoom => _zoom;
 
   final Rx<double> _latTemp = 0.0.obs;
@@ -54,7 +58,18 @@ class HomeC extends GetxController {
   final RxList<AbsenM> _listRekap = <AbsenM>[].obs;
   RxList<AbsenM> get listRekap => _listRekap;
 
+  final RxList<UserM> _listLokKaryawan = <UserM>[].obs;
+  RxList<UserM> get listLokKaryawan => _listLokKaryawan;
+
+  final RxList<UserM> _listKaryawan = <UserM>[].obs;
+  RxList<UserM> get listKaryawan => _listKaryawan;
+
+  final RxList<AZItemM> _listAZ = <AZItemM>[].obs;
+  RxList<AZItemM> get listAZ => _listAZ;
+
   late SharedPreferences prefs;
+
+  final _sessionC = Get.find<SessionC>();
 
   @override
   void onInit() async {
@@ -79,6 +94,10 @@ class HomeC extends GetxController {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fnStreamAbsenById() {
     return _homeService.streamAbsenById();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> fnStreamLokasiKaryawan() {
+    return _homeService.streamLokasiKaryawan();
   }
 
   void saveUser(DocumentSnapshot<Map<String, dynamic>>? data) {
@@ -144,5 +163,34 @@ class HomeC extends GetxController {
     } else {
       _persentase.value = 0;
     }
+  }
+
+  void saveLokasiKaryawan(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    _listLokKaryawan.clear();
+    for (var data in docs) {
+      _listLokKaryawan.add(UserM.fromJson(data.data()));
+    }
+  }
+
+  Future<void> fnSignOut() async {
+    await FirebaseAuth.instance.signOut();
+    await _sessionC.fnClearSession();
+    Get.offAllNamed(AppRouteName.auth);
+  }
+
+  void saveListKaryawan(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    _listKaryawan.clear();
+    for (var data in docs) {
+      _listKaryawan.add(UserM.fromJson(data.data()));
+      _listAZ.add(
+        AZItemM(
+          title: data.data()['name'],
+          tag: data.data()['name'][0].toString().toUpperCase(),
+        ),
+      );
+    }
+    _listKaryawan.sort((a, b) => a.name!.compareTo(b.name!));
   }
 }

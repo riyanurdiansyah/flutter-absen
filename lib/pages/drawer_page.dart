@@ -82,7 +82,42 @@ class DrawerPage extends StatelessWidget {
                 14,
                 Colors.black,
               ),
-            )
+            ),
+          if (sessionC.role.value == 1)
+            ListTile(
+              onTap: () => homeC.changeTab(3, 'Lokasi Karyawan'),
+              leading: const Icon(
+                Icons.location_history_rounded,
+              ),
+              title: AppText.labelW600(
+                "Lokasi Karyawan",
+                14,
+                Colors.black,
+              ),
+            ),
+          if (sessionC.role.value == 1)
+            ListTile(
+              onTap: () => homeC.changeTab(4, 'Karyawan'),
+              leading: const Icon(
+                Icons.person_add_alt_rounded,
+              ),
+              title: AppText.labelW600(
+                "Kelola Karyawan",
+                14,
+                Colors.black,
+              ),
+            ),
+          ListTile(
+            onTap: () => homeC.fnSignOut(),
+            leading: const Icon(
+              Icons.logout_rounded,
+            ),
+            title: AppText.labelW600(
+              "Keluar",
+              14,
+              Colors.black,
+            ),
+          ),
         ],
       ),
     );

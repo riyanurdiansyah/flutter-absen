@@ -8,4 +8,8 @@ abstract class AppRouteName {
   static const drawer = "/drawer";
 
   static const absen = "/absen";
+
+  static const detail = "/detail";
+
+  static const add = "/add";
 }

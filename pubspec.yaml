@@ -27,12 +27,14 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  azlistview: ^2.0.0
   cloud_firestore: ^3.1.18
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.20
   firebase_core: ^1.18.0
   flutter:
     sdk: flutter
+  flutter_barcode_scanner: ^2.0.0
   flutter_map: ^1.1.0
   flutter_svg: ^1.1.0
   geolocator: ^8.2.1
@@ -44,7 +46,6 @@ dependencies:
   permission_handler: ^10.0.0
   shared_preferences: ^2.0.15
   timeline_tile: ^2.0.0
-  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
