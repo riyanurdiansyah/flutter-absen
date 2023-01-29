@@ -19,9 +19,9 @@ class MasterLokasi extends StatefulWidget {
 
 class _MasterLokasiState extends State<MasterLokasi> {
   final sessionC = Get.find<SessionC>();
+  final homeC = Get.find<HomeC>();
   @override
   Widget build(BuildContext context) {
-    final homeC = Get.find<HomeC>();
     return Obx(
       () => StreamBuilder<UserM>(
         stream: homeC.fnStreamUserById(sessionC.id.value),
@@ -163,30 +163,28 @@ class _MasterLokasiState extends State<MasterLokasi> {
                                   )
                                 : const SizedBox(),
                           ),
-                          homeC.isServiceEnabled.value
-                              ? SizedBox(
-                                  width: Get.width / 1.2,
-                                  child: Card(
-                                    elevation: 4,
-                                    child: InkWell(
-                                      onTap: () => homeC.setCurrentLocMaster(),
-                                      child: Container(
-                                        height: 40,
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.all(8),
-                                        child: Text(
-                                          "SET MASTER CURRENT LOCATION",
-                                          style: GoogleFonts.nunito(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                          SizedBox(
+                            width: Get.width / 1.2,
+                            child: Card(
+                              elevation: 4,
+                              child: InkWell(
+                                onTap: () => homeC.setCurrentLocMaster(),
+                                child: Container(
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    "SET MASTER CURRENT LOCATION",
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                )
-                              : const SizedBox(),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

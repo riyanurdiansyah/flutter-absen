@@ -82,7 +82,7 @@ class HomeC extends GetxController {
   }
 
   Stream<UserM> fnStreamUserById(String id) {
-    final stream = _homeService.streamUserById();
+    final stream = _homeService.streamUserById(_sessionC.id.value);
     return stream.map((event) {
       _user.value = UserM.fromJson(event.data()!);
       return _user.value;
@@ -90,7 +90,7 @@ class HomeC extends GetxController {
   }
 
   Stream<List<AbsenM>> fnStreamAbsenById() {
-    final stream = _homeService.streamAbsenById();
+    final stream = _homeService.streamAbsenById(_sessionC.id.value);
     return stream.map((e) => e.docs).map((ev) {
       _listAbsen.value =
           absentFromJson(json.encode(ev.map((data) => data.data()).toList()));

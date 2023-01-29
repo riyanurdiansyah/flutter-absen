@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/utils/app_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +13,7 @@ import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 
 class AbsenC extends GetxController {
+  final _sessionC = Get.find<SessionC>();
   final Rx<bool> _isServiceEnabled = false.obs;
   Rx<bool> get isServiceEnabled => _isServiceEnabled;
 
@@ -61,7 +63,8 @@ class AbsenC extends GetxController {
         if (_isServiceEnabled.value) {
           _locationSub =
               location.onLocationChanged.listen((locationData) async {
-            await _homeService.saveListenLocation(locationData);
+            await _homeService.saveListenLocation(
+                locationData, _sessionC.id.value);
             mapController.move(
                 LatLng(locationData.latitude!, locationData.longitude!), 18);
           });
@@ -89,7 +92,7 @@ class AbsenC extends GetxController {
   // }
 
   Stream<UserM> fnStreamUserById() {
-    final stream = _homeService.streamUserById();
+    final stream = _homeService.streamUserById(_sessionC.id.value);
     return stream.map((event) {
       _user.value = UserM.fromJson(event.data()!);
       return _user.value;
@@ -147,7 +150,7 @@ class AbsenC extends GetxController {
   }
 
   Future fnCheckCheckout() async {
-    final response = await _homeService.checkCheckoutData();
+    final response = await _homeService.checkCheckoutData(_sessionC.id.value);
     if (response!) {
       calculateDistance();
     } else {
@@ -156,7 +159,7 @@ class AbsenC extends GetxController {
   }
 
   void fnCheckCheckin() async {
-    final response = await _homeService.checkCheckinData();
+    final response = await _homeService.checkCheckinData(_sessionC.id.value);
     if (response!) {
       calculateDistance();
     } else {
@@ -165,12 +168,12 @@ class AbsenC extends GetxController {
   }
 
   void fnSaveCheckin(UserM user) {
-    _homeService.saveCheckin(user);
+    _homeService.saveCheckin(_sessionC.id.value, user);
     Get.back();
   }
 
   void fnSaveCheckout(UserM user) {
-    _homeService.saveCheckout(user);
+    _homeService.saveCheckout(_sessionC.id.value, user);
     Get.back();
   }
 }

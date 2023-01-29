@@ -88,8 +88,10 @@ class DrawerPage extends StatelessWidget {
           ListTile(
             onTap: () async {
               // await FirebaseAuth.instance.signOut();
-              await sessionC.clearSession();
               Get.offAllNamed(AppRouteName.auth);
+              // Get.delete<HomeC>();
+              // Get.delete<AdminC>();
+              sessionC.clearSession();
             },
             leading: const Icon(
               Icons.logout_rounded,

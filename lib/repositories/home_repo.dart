@@ -5,23 +5,23 @@ import 'package:location/location.dart';
 abstract class HomeRepo {
   HomeRepo();
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUserById();
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUserById(String id);
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> streamMasterLokasi();
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById();
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById(String id);
 
   Future saveMasterLocation(double lat, double lng);
 
-  Future saveListenLocation(LocationData locationData);
+  Future saveListenLocation(LocationData locationData, String id);
 
-  Future<bool?> checkCheckinData();
+  Future<bool?> checkCheckinData(String id);
 
-  Future<bool?> checkCheckoutData();
+  Future<bool?> checkCheckoutData(String id);
 
-  Future saveCheckin(UserM user);
+  Future saveCheckin(String id, UserM user);
 
-  Future saveCheckout(UserM user);
+  Future saveCheckout(String id, UserM user);
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi();
 }

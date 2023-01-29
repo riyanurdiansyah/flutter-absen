@@ -24,8 +24,8 @@ class SessionC extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await FirebaseAuth.instance.signOut();
     await prefs.clear();
-    id.value = "";
-    name.value = "";
-    role.value = 00;
+    // id.value = "";
+    // name.value = "";
+    // role.value = 00;
   }
 }

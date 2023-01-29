@@ -1,13 +1,11 @@
-import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/repositories/home_repo.dart';
 import 'package:absensi_flutter/utils/app_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:location/location.dart';
 
 class HomeService extends HomeRepo {
-  final _sC = Get.find<SessionC>();
+  //final _sC = Get.find<SessionC>();
   @override
   Stream<DocumentSnapshot<Map<String, dynamic>>> streamMasterLokasi() {
     return FirebaseFirestore.instance
@@ -17,18 +15,17 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUserById() {
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(_sC.id.value)
-        .snapshots();
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUserById(
+    String id,
+  ) {
+    return FirebaseFirestore.instance.collection("users").doc(id).snapshots();
   }
 
   @override
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById(String id) {
     return FirebaseFirestore.instance
         .collection("/absen")
-        .where("id", isEqualTo: _sC.id.value)
+        .where("id", isEqualTo: id)
         .snapshots();
   }
 
@@ -52,13 +49,10 @@ class HomeService extends HomeRepo {
   @override
   Future saveListenLocation(
     LocationData locationData,
+    String id,
   ) async {
-    print('id : ${_sC.id.value}');
     try {
-      await FirebaseFirestore.instance
-          .collection('/users')
-          .doc(_sC.id.value)
-          .update(
+      await FirebaseFirestore.instance.collection('/users').doc(id).update(
         {
           "lat": locationData.latitude,
           "lng": locationData.longitude,
@@ -71,13 +65,13 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Future<bool?> checkCheckinData() async {
+  Future<bool?> checkCheckinData(String id) async {
     try {
       final response = await FirebaseFirestore.instance
           .collection('absen')
           .where(
             'id',
-            isEqualTo: _sC.id.value,
+            isEqualTo: id,
           )
           .get();
 
@@ -100,13 +94,13 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Future<bool?> checkCheckoutData() async {
+  Future<bool?> checkCheckoutData(String id) async {
     try {
       final response = await FirebaseFirestore.instance
           .collection('absen')
           .where(
             'id',
-            isEqualTo: _sC.id.value,
+            isEqualTo: id,
           )
           .get();
 
@@ -133,15 +127,15 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Future saveCheckin(UserM user) async {
+  Future saveCheckin(String id, UserM user) async {
     final body = {
-      "id": _sC.id.value,
+      "id": id,
       "image": "-",
       "date": DateTime.now().toIso8601String(),
       "timeIn": DateTime.now().toIso8601String(),
       "timeOut": "-",
       "remote": false,
-      "name": _sC.name.value,
+      "name": user.name,
       "latCheckin": user.lat,
       "lngCheckin": user.lng,
     };
@@ -154,7 +148,7 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Future saveCheckout(UserM user) async {
+  Future saveCheckout(String id, UserM user) async {
     final body = {
       "timeOut": DateTime.now().toIso8601String(),
       "latCheckout": user.lat,
@@ -163,7 +157,7 @@ class HomeService extends HomeRepo {
     try {
       final response = await FirebaseFirestore.instance
           .collection("/absen")
-          .where("id", isEqualTo: _sC.id.value)
+          .where("id", isEqualTo: id)
           .get();
 
       final data = response.docs
