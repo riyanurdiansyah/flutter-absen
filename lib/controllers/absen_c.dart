@@ -44,8 +44,10 @@ class AbsenC extends GetxController {
 
   @override
   void onClose() {
+    if (_locationSub != null) {
+      _locationSub!.pause();
+    }
     super.onClose();
-    _locationSub!.pause();
   }
 
   void changeService() {

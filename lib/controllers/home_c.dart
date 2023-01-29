@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
@@ -10,6 +11,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeC extends GetxController {
+  final _sessionC = Get.find<SessionC>();
   final Rx<int> _indexTab = 0.obs;
   Rx<int> get indexTab => _indexTab;
 
@@ -63,6 +65,10 @@ class HomeC extends GetxController {
     super.onInit();
     prefs = await SharedPreferences.getInstance();
     _uid.value = prefs.getString('uid') ?? '';
+    if (_sessionC.role.value == 1) {
+      _indexTab.value = 1;
+      _title.value = "Master Lokasi";
+    }
   }
 
   void changeTab(int i, String txt) {

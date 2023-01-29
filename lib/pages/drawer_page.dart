@@ -49,17 +49,18 @@ class DrawerPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ListTile(
-            onTap: () => homeC.changeTab(0, 'Home'),
-            leading: const Icon(
-              Icons.home_rounded,
+          if (sessionC.role.value != 1)
+            ListTile(
+              onTap: () => homeC.changeTab(0, 'Home'),
+              leading: const Icon(
+                Icons.home_rounded,
+              ),
+              title: AppText.labelW600(
+                "Home",
+                14,
+                Colors.black,
+              ),
             ),
-            title: AppText.labelW600(
-              "Home",
-              14,
-              Colors.black,
-            ),
-          ),
           if (sessionC.role.value == 1)
             ListTile(
               onTap: () => homeC.changeTab(1, 'Master Lokasi'),
