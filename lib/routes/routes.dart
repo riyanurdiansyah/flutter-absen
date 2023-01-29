@@ -25,12 +25,12 @@ class AppRoute {
     ),
     GetPage(
       name: AppRouteName.home,
-      page: () => const DashboardPage(),
+      page: () => DashboardPage(),
       binding: HomeBind(),
     ),
     GetPage(
       name: AppRouteName.drawer,
-      page: () => const DrawerPage(),
+      page: () => DrawerPage(),
       transition: Transition.leftToRight,
     ),
     GetPage(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
@@ -73,17 +75,26 @@ class HomeC extends GetxController {
     return _homeService.streamMasterLokasi();
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> fnStreamUserById(String id) {
-    return _homeService.streamUserById();
+  Stream<UserM> fnStreamUserById(String id) {
+    final stream = _homeService.streamUserById();
+    return stream.map((event) {
+      _user.value = UserM.fromJson(event.data()!);
+      return _user.value;
+    });
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> fnStreamAbsenById() {
-    return _homeService.streamAbsenById();
+  Stream<List<AbsenM>> fnStreamAbsenById() {
+    final stream = _homeService.streamAbsenById();
+    return stream.map((e) => e.docs).map((ev) {
+      _listAbsen.value =
+          absentFromJson(json.encode(ev.map((data) => data.data()).toList()));
+      return _listAbsen;
+    });
   }
 
-  void saveUser(DocumentSnapshot<Map<String, dynamic>>? data) {
-    _user.value = UserM.fromJson(data!.data()!);
-  }
+  // void saveUser(DocumentSnapshot<Map<String, dynamic>>? data) {
+  //   _user.value = UserM.fromJson(data!.data()!);
+  // }
 
   void onTapMasterLokasi(LatLng latLngOnTap) {
     _latTemp.value = latLngOnTap.latitude;

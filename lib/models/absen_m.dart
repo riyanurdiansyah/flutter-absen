@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+List<AbsenM> absentFromJson(String str) =>
+    List<AbsenM>.from(json.decode(str).map((x) => AbsenM.fromJson(x)));
+
 class AbsenM {
   AbsenM({
     this.timeIn,

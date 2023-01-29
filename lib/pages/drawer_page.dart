@@ -1,17 +1,18 @@
 import 'package:absensi_flutter/controllers/home_c.dart';
 import 'package:absensi_flutter/controllers/session_c.dart';
+import 'package:absensi_flutter/routes/routes_name.dart';
 import 'package:absensi_flutter/utils/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DrawerPage extends StatelessWidget {
-  const DrawerPage({Key? key}) : super(key: key);
+  DrawerPage({Key? key}) : super(key: key);
+  final homeC = Get.find<HomeC>();
+  final sessionC = Get.find<SessionC>();
 
   @override
   Widget build(BuildContext context) {
-    final homeC = Get.find<HomeC>();
-    final sessionC = Get.find<SessionC>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -82,7 +83,22 @@ class DrawerPage extends StatelessWidget {
                 14,
                 Colors.black,
               ),
-            )
+            ),
+          ListTile(
+            onTap: () async {
+              // await FirebaseAuth.instance.signOut();
+              await sessionC.clearSession();
+              Get.offAllNamed(AppRouteName.auth);
+            },
+            leading: const Icon(
+              Icons.logout_rounded,
+            ),
+            title: AppText.labelW600(
+              "Keluar",
+              14,
+              Colors.black,
+            ),
+          )
         ],
       ),
     );

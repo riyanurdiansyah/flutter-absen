@@ -1,5 +1,6 @@
 import 'package:absensi_flutter/controllers/admin_c.dart';
 import 'package:absensi_flutter/controllers/home_c.dart';
+import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/pages/admin/rekap_absen_page.dart';
 import 'package:absensi_flutter/pages/home/home_page.dart';
 import 'package:absensi_flutter/pages/home/master_lokasi.dart';
@@ -11,12 +12,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  DashboardPage({Key? key}) : super(key: key);
+  final homeC = Get.find<HomeC>();
+  final admC = Get.find<AdminC>();
+  final sessionC = Get.find<SessionC>();
 
   @override
   Widget build(BuildContext context) {
-    final homeC = Get.find<HomeC>();
-    final admC = Get.find<AdminC>();
     return Scaffold(
       key: admC.scaffoldkey,
       appBar: AppBar(
@@ -52,16 +54,16 @@ class DashboardPage extends StatelessWidget {
       body: Obx(
         () => IndexedStack(
           index: homeC.indexTab.value,
-          children: const [
+          children: [
             HomePage(),
-            MasterLokasi(),
-            RekapAbsenPage(),
+            const MasterLokasi(),
+            const RekapAbsenPage(),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(
-        () => homeC.indexTab.value == 0
+        () => homeC.indexTab.value == 0 && sessionC.role.value != 1
             ? SizedBox(
                 width: Get.width / 1.2,
                 child: Row(

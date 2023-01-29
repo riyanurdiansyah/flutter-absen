@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,8 +38,13 @@ class AdminC extends GetxController {
         .toList();
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> fnStreamAbsensi() {
-    return _homeService.streamAbsenById();
+  Stream<List<AbsenM>> fnStreamAbsensi() {
+    final stream = _homeService.streamAbsenById();
+    return stream.map((e) => e.docs).map((ev) {
+      _listAbsen.value =
+          absentFromJson(json.encode(ev.map((data) => data.data()).toList()));
+      return _listAbsen;
+    });
   }
 
   void fnSaveAbsensi(List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {

@@ -32,14 +32,14 @@ class AuthC extends GetxController {
     _isHidePassword.value = !_isHidePassword.value;
   }
 
-  void changeLoading() {
-    _isLoading.value = !_isLoading.value;
+  Future changeLoading(bool val) async {
+    _isLoading.value = val;
   }
 
   void fnLogin() async {
     FocusScope.of(_scaffoldSignin.currentContext!).requestFocus(FocusNode());
     if (_signinKey.currentState!.validate()) {
-      changeLoading();
+      changeLoading(true);
       final email = await _authService.getEmail(_txUsername.value.text);
       if (email != null) {
         final response = await _authService.signin(
@@ -49,25 +49,23 @@ class AuthC extends GetxController {
         Future.delayed(
           const Duration(seconds: 3),
           () async {
-            changeLoading();
             if (response != null) {
               final data = await _authService.getInfoUser(response);
-              print("RES: $response");
-              print("DATA: $data");
               if (data != null) {
                 await AppSession.saveSession(data);
                 await _sC.saveSessionToController();
+                await changeLoading(false);
                 return Get.offAllNamed(AppRouteName.home);
               }
             } else {
-              changeLoading();
+              await changeLoading(false);
               AppDialog.dialogWithRoute(
                   "Ooppss...", 'Terjadi kesalah silahkan coba sesaat lagi');
             }
           },
         );
       } else {
-        changeLoading();
+        await changeLoading(false);
         AppDialog.dialogWithRoute(
             "Ooppss...", 'NIK belum terdaftar didalam sistem');
       }

@@ -72,21 +72,36 @@ class AbsenC extends GetxController {
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> fnStreamMasterLokasi() {
-    return _homeService.streamMasterLokasi();
+    final stream = _homeService.streamMasterLokasi();
+
+    return stream.map((data) {
+      latMaster.value = data.data()!['lat'];
+      lngMaster.value = data.data()!['lng'];
+
+      return data;
+    });
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> fnStreamUserById() {
-    return _homeService.streamUserById();
+  // Stream<DocumentSnapshot<Map<String, dynamic>>> fnStreamUserById() {
+  //   return _homeService.streamUserById();
+  // }
+
+  Stream<UserM> fnStreamUserById() {
+    final stream = _homeService.streamUserById();
+    return stream.map((event) {
+      _user.value = UserM.fromJson(event.data()!);
+      return _user.value;
+    });
   }
 
-  void saveLocMaster(DocumentSnapshot<Map<String, dynamic>>? data) {
-    latMaster.value = data!.data()!['lat'];
-    lngMaster.value = data.data()!['lng'];
-  }
+  // void saveLocMaster(DocumentSnapshot<Map<String, dynamic>>? data) {
+  //   latMaster.value = data!.data()!['lat'];
+  //   lngMaster.value = data.data()!['lng'];
+  // }
 
-  void saveUserById(DocumentSnapshot<Map<String, dynamic>>? data) {
-    user.value = UserM.fromJson(data!.data()!);
-  }
+  // void saveUserById(DocumentSnapshot<Map<String, dynamic>>? data) {
+  //   user.value = UserM.fromJson(data!.data()!);
+  // }
 
   Future<void> scanBarcodeNormal(int flag) async {
     String barcodeScanRes;

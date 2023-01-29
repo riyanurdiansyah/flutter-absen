@@ -1,6 +1,6 @@
 import 'package:absensi_flutter/controllers/home_c.dart';
+import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/utils/app_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,11 +11,12 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final homeC = Get.find<HomeC>();
 
   @override
   Widget build(BuildContext context) {
-    final homeC = Get.find<HomeC>();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -25,11 +26,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            StreamBuilder<List<AbsenM>>(
               stream: homeC.fnStreamAbsenById(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasData) {
-                  homeC.saveRekap(snapshot.data!.docs);
                   return Card(
                     elevation: 2,
                     color: Colors.blue.shade400,
@@ -170,11 +170,11 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            StreamBuilder<List<AbsenM>>(
               stream: homeC.fnStreamAbsenById(),
               builder: (ctx, snapshot) {
                 if (snapshot.hasData) {
-                  homeC.saveAbsen(snapshot.data!.docs);
+                  // homeC.saveAbsen(snapshot.data!.docs);
                   return Column(
                     children: List.generate(
                       homeC.listAbsen.length <= 3 ? homeC.listAbsen.length : 3,

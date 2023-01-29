@@ -1,7 +1,7 @@
 import 'package:absensi_flutter/controllers/admin_c.dart';
+import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/utils/app_dialog.dart';
 import 'package:absensi_flutter/utils/app_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,11 +95,10 @@ class RekapAbsenPage extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          StreamBuilder<List<AbsenM>>(
               stream: admC.fnStreamAbsensi(),
               builder: (_, snapshot) {
                 if (snapshot.hasData) {
-                  admC.fnSaveAbsensi(snapshot.data!.docs);
                   return Expanded(
                     child: Obx(
                       () => ListView(

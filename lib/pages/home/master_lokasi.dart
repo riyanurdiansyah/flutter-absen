@@ -1,5 +1,6 @@
 import 'package:absensi_flutter/controllers/home_c.dart';
 import 'package:absensi_flutter/controllers/session_c.dart';
+import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/utils/app_constanta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,11 +23,11 @@ class _MasterLokasiState extends State<MasterLokasi> {
   Widget build(BuildContext context) {
     final homeC = Get.find<HomeC>();
     return Obx(
-      () => StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      () => StreamBuilder<UserM>(
         stream: homeC.fnStreamUserById(sessionC.id.value),
         builder: (context, snapshotUser) {
           if (snapshotUser.hasData) {
-            homeC.saveUser(snapshotUser.data);
+            // homeC.saveUser(snapshotUser.data);
             return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
               stream: homeC.fnStreamMasterLokasi(),
               builder: (context, snapshot) {

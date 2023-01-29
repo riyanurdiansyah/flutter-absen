@@ -1,4 +1,5 @@
 import 'package:absensi_flutter/controllers/absen_c.dart';
+import 'package:absensi_flutter/models/user_m.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,12 @@ class AbsenPage extends StatelessWidget {
               stream: aC.fnStreamMasterLokasi(),
               builder: (ctx, snapshotMaster) {
                 if (snapshotMaster.hasData) {
-                  aC.saveLocMaster(snapshotMaster.data);
-                  return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  // aC.saveLocMaster(snapshotMaster.data);
+                  return StreamBuilder<UserM>(
                     stream: aC.fnStreamUserById(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasData) {
-                        aC.saveUserById(snapshot.data!);
+                        // aC.saveUserById(snapshot.data!);
                         return FlutterMap(
                           mapController: aC.mapController,
                           options: MapOptions(
@@ -76,7 +77,7 @@ class AbsenPage extends StatelessWidget {
                             maxZoom: aC.maxZoom.value,
                             zoom: aC.zoom.value,
                             center: LatLng(
-                                snapshot.data!['lat'], snapshot.data!['lng']),
+                                aC.user.value.lat ?? 0, aC.user.value.lng ?? 0),
                           ),
                           nonRotatedLayers: [
                             TileLayerOptions(
@@ -93,8 +94,8 @@ class AbsenPage extends StatelessWidget {
                                   width: 30,
                                   height: 30,
                                   point: LatLng(
-                                    snapshot.data!['lat'],
-                                    snapshot.data!['lng'],
+                                    aC.user.value.lat ?? 0,
+                                    aC.user.value.lng ?? 0,
                                   ),
                                   builder: (_) => GestureDetector(
                                     onTap: () {},
@@ -139,8 +140,8 @@ class AbsenPage extends StatelessWidget {
                                   width: 40,
                                   height: 40,
                                   point: LatLng(
-                                    snapshot.data!['lat'],
-                                    snapshot.data!['lng'],
+                                    aC.user.value.lat ?? 0,
+                                    aC.user.value.lng ?? 0,
                                   ),
                                   builder: (_) => Image.asset(
                                     "assets/images/pin.png",
