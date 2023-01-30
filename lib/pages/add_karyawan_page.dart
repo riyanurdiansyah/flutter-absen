@@ -104,7 +104,7 @@ class AddKaryawanPage extends StatelessWidget {
                   height: 16,
                 ),
                 TextFormField(
-                  controller: addKaryawanC.tcNama,
+                  controller: addKaryawanC.tcEmail,
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                     contentPadding:
@@ -207,17 +207,29 @@ class AddKaryawanPage extends StatelessWidget {
                 const SizedBox(
                   height: 35,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: AppText.labelBold(
-                      "SIMPAN",
-                      14,
-                      Colors.white,
-                    ),
-                  ),
-                )
+                Obx(
+                  () {
+                    if (addKaryawanC.isLoading.value) {
+                      return const Center(
+                        child: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator()),
+                      );
+                    }
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => addKaryawanC.registerNewUser(),
+                        child: AppText.labelBold(
+                          "SIMPAN",
+                          14,
+                          Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

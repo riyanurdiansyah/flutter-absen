@@ -43,8 +43,6 @@ class AppValidator {
     final regExp = RegExp(pattern);
     if (text.isEmpty) {
       return "Email tidak boleh kosong";
-    } else if (!text.toLowerCase().contains("arkademi")) {
-      return "Gunakan email format Arkademi";
     } else if (!regExp.hasMatch(text.trim())) {
       return "Format email salah";
     } else {

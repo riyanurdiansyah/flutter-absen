@@ -61,42 +61,42 @@ class DrawerPage extends StatelessWidget {
                 Colors.black,
               ),
             ),
-          if (sessionC.role.value == 1)
-            ListTile(
-              onTap: () => homeC.changeTab(1, 'Master Lokasi'),
-              leading: const Icon(
-                Icons.location_city_rounded,
-              ),
-              title: AppText.labelW600(
-                "Master Lokasi",
-                14,
-                Colors.black,
-              ),
+          // if (sessionC.role.value == 1)
+          ListTile(
+            onTap: () => homeC.changeTab(1, 'Master Lokasi'),
+            leading: const Icon(
+              Icons.location_city_rounded,
             ),
-          if (sessionC.role.value == 1)
-            ListTile(
-              onTap: () => homeC.changeTab(2, 'Rekap Absen'),
-              leading: const Icon(
-                Icons.document_scanner_rounded,
-              ),
-              title: AppText.labelW600(
-                "Rekap Absen",
-                14,
-                Colors.black,
-              ),
+            title: AppText.labelW600(
+              "Master Lokasi",
+              14,
+              Colors.black,
             ),
-          if (sessionC.role.value == 1)
-            ListTile(
-              onTap: () => homeC.changeTab(3, 'Kelola Karyawan'),
-              leading: const Icon(
-                Icons.group_rounded,
-              ),
-              title: AppText.labelW600(
-                "Kelola Karyawan",
-                14,
-                Colors.black,
-              ),
+          ),
+          // if (sessionC.role.value == 1)
+          ListTile(
+            onTap: () => homeC.changeTab(2, 'Rekap Absen'),
+            leading: const Icon(
+              Icons.document_scanner_rounded,
             ),
+            title: AppText.labelW600(
+              "Rekap Absen",
+              14,
+              Colors.black,
+            ),
+          ),
+          // if (sessionC.role.value == 1)
+          ListTile(
+            onTap: () => homeC.changeTab(3, 'Kelola Karyawan'),
+            leading: const Icon(
+              Icons.group_rounded,
+            ),
+            title: AppText.labelW600(
+              "Kelola Karyawan",
+              14,
+              Colors.black,
+            ),
+          ),
           ListTile(
             onTap: () {
               Get.offAllNamed(AppRouteName.auth);

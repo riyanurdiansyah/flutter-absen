@@ -43,4 +43,21 @@ class UserM {
         lat: json["lat"],
         lng: json["lng"],
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      "createdAt": createdAt,
+      "updatedAt": updatedAt,
+      "uid": uid,
+      "email": email,
+      "handphone": handphone,
+      "name": name,
+      "username": username,
+      "profilePict": profilePict,
+      "role": role,
+      "status": true,
+      "lat": lat,
+      "lng": lng,
+    };
+  }
 }

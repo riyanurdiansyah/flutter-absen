@@ -4,6 +4,7 @@ import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class AdminC extends GetxController {
@@ -96,5 +97,14 @@ class AdminC extends GetxController {
       }
       return _listUser;
     });
+  }
+
+  Future deleteUser(String uid) async {
+    final response = await _homeService.deleteUser(uid);
+    if (response) {
+      Fluttertoast.showToast(msg: "User berhasil dihapus");
+    } else {
+      Fluttertoast.showToast(msg: "Terjadi kesalahan silahkan coba lagi...");
+    }
   }
 }

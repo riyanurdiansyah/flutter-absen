@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:absensi_flutter/models/regist_m.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/repositories/home_repo.dart';
 import 'package:absensi_flutter/utils/app_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:location/location.dart';
 
 class HomeService extends HomeRepo {
@@ -187,5 +191,58 @@ class HomeService extends HomeRepo {
         .collection("users")
         .where("role", isEqualTo: 2)
         .snapshots();
+  }
+
+  @override
+  Future<RegistM> registerWithEmail(UserM user, String password) async {
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: user.email!,
+        password: password,
+      );
+      if (credential.user != null) {
+        user.uid = credential.user!.uid;
+        saveUserToTable(user);
+        return RegistM(status: true, message: "Registrasi berhasil");
+      } else {
+        return RegistM(
+            status: false, message: "Gagal registrasi silahkan coba lagi");
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return RegistM(status: false, message: "Password terlalu lemah");
+      } else if (e.code == 'email-already-in-use') {
+        return RegistM(status: false, message: "Email sudah terdaftar");
+      }
+      return RegistM(
+          status: false, message: "Terjadi kesalah silahkan coba lagi...");
+    } catch (e) {
+      return RegistM(
+          status: false, message: "Terjadi kesalah silahkan coba lagi...");
+    }
+  }
+
+  @override
+  Future<void> saveUserToTable(UserM user) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid!)
+          .set(user.toJson());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<bool> deleteUser(String uid) async {
+    try {
+      await FirebaseFirestore.instance.collection("users").doc(uid).delete();
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }

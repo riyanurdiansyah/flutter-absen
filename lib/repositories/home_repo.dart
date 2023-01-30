@@ -1,3 +1,4 @@
+import 'package:absensi_flutter/models/regist_m.dart';
 import 'package:absensi_flutter/models/user_m.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
@@ -26,4 +27,10 @@ abstract class HomeRepo {
   Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi();
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamUser();
+
+  Future<RegistM> registerWithEmail(UserM user, String password);
+
+  Future<void> saveUserToTable(UserM user);
+
+  Future<bool> deleteUser(String uid);
 }
