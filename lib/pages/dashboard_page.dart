@@ -57,7 +57,7 @@ class DashboardPage extends StatelessWidget {
           children: [
             HomePage(),
             const MasterLokasi(),
-            const RekapAbsenPage(),
+            RekapAbsenPage(),
           ],
         ),
       ),

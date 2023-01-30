@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/absen_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
@@ -43,8 +41,24 @@ class AdminC extends GetxController {
   Stream<List<AbsenM>> fnStreamAbsensi() {
     final stream = _homeService.streamAbsenById(_sessionC.id.value);
     return stream.map((e) => e.docs).map((ev) {
-      _listAbsen.value =
-          absentFromJson(json.encode(ev.map((data) => data.data()).toList()));
+      _listAbsen.clear();
+      _listAbsenAll.clear();
+      for (var data in ev) {
+        _listAbsen.add(AbsenM.fromJson(data.data()));
+        _listAbsenAll.add(AbsenM.fromJson(data.data()));
+      }
+      _listAbsen.value = _listAbsenAll
+          .where(
+            (e) =>
+                DateTime.parse(e.date!).day ==
+                    DateTime.parse(_tanggal.value).day &&
+                DateTime.parse(e.date!).month ==
+                    DateTime.parse(_tanggal.value).month &&
+                DateTime.parse(e.date!).year ==
+                    DateTime.parse(_tanggal.value).year,
+          )
+          .toList();
+
       return _listAbsen;
     });
   }

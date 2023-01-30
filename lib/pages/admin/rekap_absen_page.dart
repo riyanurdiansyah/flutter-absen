@@ -8,11 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class RekapAbsenPage extends StatelessWidget {
-  const RekapAbsenPage({Key? key}) : super(key: key);
+  RekapAbsenPage({Key? key}) : super(key: key);
+  final admC = Get.find<AdminC>();
 
   @override
   Widget build(BuildContext context) {
-    final admC = Get.find<AdminC>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
