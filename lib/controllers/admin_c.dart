@@ -1,5 +1,6 @@
 import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/models/absen_m.dart';
+import 'package:absensi_flutter/models/user_m.dart';
 import 'package:absensi_flutter/services/home_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,9 @@ class AdminC extends GetxController {
   RxList<AbsenM> get listAbsenAll => _listAbsenAll;
 
   final _homeService = HomeService();
+
+  final RxList<UserM> _listUser = <UserM>[].obs;
+  RxList<UserM> get listUser => _listUser;
 
   @override
   void onInit() {
@@ -81,5 +85,16 @@ class AdminC extends GetxController {
                   DateTime.parse(_tanggal.value).year,
         )
         .toList();
+  }
+
+  Stream<List<UserM>> fnStreamUser() {
+    final stream = _homeService.streamUser();
+    return stream.map((e) => e.docs).map((ev) {
+      _listUser.clear();
+      for (var data in ev) {
+        _listUser.add(UserM.fromJson(data.data()));
+      }
+      return _listUser;
+    });
   }
 }

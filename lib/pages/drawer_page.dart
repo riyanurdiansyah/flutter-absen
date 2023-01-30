@@ -85,12 +85,21 @@ class DrawerPage extends StatelessWidget {
                 Colors.black,
               ),
             ),
+          if (sessionC.role.value == 1)
+            ListTile(
+              onTap: () => homeC.changeTab(3, 'Kelola Karyawan'),
+              leading: const Icon(
+                Icons.group_rounded,
+              ),
+              title: AppText.labelW600(
+                "Kelola Karyawan",
+                14,
+                Colors.black,
+              ),
+            ),
           ListTile(
-            onTap: () async {
-              // await FirebaseAuth.instance.signOut();
+            onTap: () {
               Get.offAllNamed(AppRouteName.auth);
-              // Get.delete<HomeC>();
-              // Get.delete<AdminC>();
               sessionC.clearSession();
             },
             leading: const Icon(

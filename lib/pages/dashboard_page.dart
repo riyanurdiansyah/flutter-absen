@@ -3,6 +3,7 @@ import 'package:absensi_flutter/controllers/home_c.dart';
 import 'package:absensi_flutter/controllers/session_c.dart';
 import 'package:absensi_flutter/pages/admin/rekap_absen_page.dart';
 import 'package:absensi_flutter/pages/home/home_page.dart';
+import 'package:absensi_flutter/pages/kelola_karyawan_page.dart';
 import 'package:absensi_flutter/pages/home/master_lokasi.dart';
 import 'package:absensi_flutter/routes/routes_name.dart';
 import 'package:absensi_flutter/utils/app_text.dart';
@@ -50,6 +51,21 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
         ),
+        actions: [
+          Obx(
+            () {
+              if (homeC.indexTab.value == 3) {
+                return IconButton(
+                  onPressed: () => Get.toNamed(AppRouteName.addKaryawan),
+                  icon: const Icon(
+                    Icons.person_add_alt_rounded,
+                  ),
+                );
+              }
+              return const SizedBox();
+            },
+          )
+        ],
       ),
       body: Obx(
         () => IndexedStack(
@@ -58,6 +74,7 @@ class DashboardPage extends StatelessWidget {
             HomePage(),
             const MasterLokasi(),
             RekapAbsenPage(),
+            KelolaKaryawanPage(),
           ],
         ),
       ),

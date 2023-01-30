@@ -41,7 +41,6 @@ class AuthService extends AuthRepo {
           .collection('/users')
           .where('username', isEqualTo: username)
           .get();
-      print("EMAIL : $res");
 
       return res.docs[0]['email'];
     } on FirebaseAuthException catch (e) {

@@ -180,4 +180,12 @@ class HomeService extends HomeRepo {
   Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsensi() {
     return FirebaseFirestore.instance.collection("absen").snapshots();
   }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamUser() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("role", isEqualTo: 2)
+        .snapshots();
+  }
 }
