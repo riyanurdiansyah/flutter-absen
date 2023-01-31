@@ -10,7 +10,7 @@ abstract class HomeRepo {
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> streamMasterLokasi();
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById(String id);
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById();
 
   Future saveMasterLocation(double lat, double lng);
 

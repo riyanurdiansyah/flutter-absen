@@ -44,7 +44,7 @@ class AdminC extends GetxController {
   }
 
   Stream<List<AbsenM>> fnStreamAbsensi() {
-    final stream = _homeService.streamAbsenById(_sessionC.id.value);
+    final stream = _homeService.streamAbsenById();
     return stream.map((e) => e.docs).map((ev) {
       _listAbsen.clear();
       _listAbsenAll.clear();

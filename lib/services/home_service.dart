@@ -26,11 +26,8 @@ class HomeService extends HomeRepo {
   }
 
   @override
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById(String id) {
-    return FirebaseFirestore.instance
-        .collection("/absen")
-        .where("id", isEqualTo: id)
-        .snapshots();
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamAbsenById() {
+    return FirebaseFirestore.instance.collection("/absen").snapshots();
   }
 
   @override
